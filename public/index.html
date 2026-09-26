@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Management System</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- ================= HEADER ================= -->
+
+        <header class="main-header">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    🎓
+                </div>
+
+                <div>
+                    <h1>Student Management</h1>
+                    <p>Kelola data siswa dengan mudah</p>
+                </div>
+
+            </div>
+
+            <button id="darkMode">
+                🌙 Dark Mode
+            </button>
+
+        </header>
+
+
+        <!-- ================= MESSAGE ================= -->
+
+        <div id="message"></div>
+
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <main class="dashboard">
+
+
+            <!-- ================= FORM ================= -->
+
+            <section class="card form-card">
+
+                <div class="section-header">
+
+                    <div>
+                        <span class="section-label">DATA SISWA</span>
+
+                        <h2 id="formTitle">
+                            Tambah Siswa
+                        </h2>
+
+                        <p>
+                            Isi informasi siswa di bawah ini
+                        </p>
+                    </div>
+
+                    <div class="section-icon">
+                        +
+                    </div>
+
+                </div>
+
+
+                <form id="formSiswa">
+
+                    <input type="hidden" id="id">
+
+
+                    <div class="form-grid">
+
+                        <!-- NIS -->
+
+                        <div class="form-group">
+
+                            <label for="nis">
+                                NIS
+                            </label>
+
+                            <input
+                                type="text"
+                                id="nis"
+                                placeholder="Masukkan NIS"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- NAMA -->
+
+                        <div class="form-group">
+
+                            <label for="nama">
+                                Nama Siswa
+                            </label>
+
+                            <input
+                                type="text"
+                                id="nama"
+                                placeholder="Masukkan nama siswa"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- KELAS -->
+
+                        <div class="form-group">
+
+                            <label for="kelas">
+                                Kelas
+                            </label>
+
+                            <input
+                                type="text"
+                                id="kelas"
+                                placeholder="Contoh: XI RPL 1"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- JURUSAN -->
+
+                        <div class="form-group">
+
+                            <label for="jurusan">
+                                Jurusan
+                            </label>
+
+                            <input
+                                type="text"
+                                id="jurusan"
+                                placeholder="Masukkan jurusan"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ALAMAT -->
+
+                    <div class="form-group">
+
+                        <label for="alamat">
+                            Alamat
+                        </label>
+
+                        <textarea
+                            id="alamat"
+                            placeholder="Masukkan alamat lengkap siswa"
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- BUTTON -->
+
+                    <div class="form-button">
+
+                        <button
+                            type="submit"
+                            id="btnSimpan"
+                        >
+                            💾 Simpan Data
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn-cancel"
+                            onclick="resetForm()"
+                        >
+                            Batal
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- ================= DATA SISWA ================= -->
+
+            <section class="card data-card">
+
+
+                <!-- DATA HEADER -->
+
+                <div class="data-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            DATABASE
+                        </span>
+
+                        <h2>
+                            Daftar Siswa
+                        </h2>
+
+                        <p>
+                            Data siswa yang tersimpan
+                        </p>
+
+                    </div>
+
+
+                    <div class="student-count">
+
+                        <span id="jumlahSiswa">
+                            0
+                        </span>
+
+                        <small>
+                            Siswa
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= FILTER ================= -->
+
+                <div class="filter">
+
+                    <div class="search-box">
+
+                        <span>
+                            🔎
+                        </span>
+
+                        <input
+                            type="text"
+                            id="search"
+                            placeholder="Cari nama atau NIS..."
+                            onkeyup="filterData()"
+                        >
+
+                    </div>
+
+
+                    <select
+                        id="filterKelas"
+                        onchange="filterData()"
+                    >
+
+                        <option value="">
+                            Semua Kelas
+                        </option>
+
+                    </select>
+
+
+                    <button
+                        class="refresh-btn"
+                        onclick="loadSiswa()"
+                    >
+                        🔄 Refresh
+                    </button>
+
+                </div>
+
+
+                <!-- ================= LOADING ================= -->
+
+                <div id="loading">
+                    ⏳ Mengambil data...
+                </div>
+
+
+                <!-- ================= TABLE ================= -->
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>ID</th>
+
+                                <th>NIS</th>
+
+                                <th>Nama</th>
+
+                                <th>Kelas</th>
+
+                                <th>Jurusan</th>
+
+                                <th>Alamat</th>
+
+                                <th>Aksi</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="dataSiswa">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <!-- ================= FOOTER ================= -->
+
+        <footer>
+
+            <p>
+                © 2026 Student Management System
+            </p>
+
+        </footer>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
